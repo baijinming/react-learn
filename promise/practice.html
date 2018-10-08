@@ -1,0 +1,14 @@
+
+
+<script>
+    var a=new Promise(function(resolve,reject){
+        let num=Math.random();
+        if(num>0.5){
+            resolve("max"+num)
+        }else{
+            reject("min"+num)
+        }
+    })
+    a.then(res=>console.log(res),err=>console.log(err));
+    console.log(a)
+</script>

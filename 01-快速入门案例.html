@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #app{border: 2px solid skyblue;height: 500px;width: 500px;margin: 0 auto}
+        .list{color: red;border: 2px solid blue;margin: 10px;text-align: center;overflow: scroll;height: 100px;}
+        button{margin: 10px 100px}
+    </style>
+    <script src="./js/react.js"></script>
+    <script src="./js/react-dom.js"></script>
+    <script src="./js/browser-5.8.38.min.js"></script>
+</head>
+<body>
+
+    <div id="app"></div>
+    <script type="text/babel">
+        let Lis=React.createClass({
+            f(){
+                let arr=[];
+                let x=0;
+                for(let i=0;i<this.props.num;i++){
+                    arr[i]=++x
+                }
+                arr.reverse();
+                return arr;
+            },
+            render(){
+                return(
+                    <div className="list">
+                        <ul style={{"color":"red"}}>
+                            {this.f().map((item,index)=><li key={index}>{item}</li>)}
+                        </ul>
+                    </div>
+                )
+            }
+        });
+        let App=React.createClass({
+            getInitialState(){
+                return{
+                    num:0
+                }
+            },
+            add(){
+                this.setState({
+                    num:++this.state.num,
+                })
+            },
+            reduce(){
+                this.setState({
+                    num:--this.state.num
+                })
+            },
+            render(){
+                return (
+                    <div>
+                        <h2 style={{"textAlign":"center"}}>{this.props.abc}</h2>
+                        <h1 style={{"textAlign":"center","margin":"0 auto"}}>{this.state.num}</h1>
+                        <button onClick={this.add}>+</button>
+                        <button onClick={this.reduce}>-</button>
+                        <Lis num={this.state.num} />
+                        <Lis num={this.state.num} />
+                        <Lis num={this.state.num} />
+                    </div>
+                )
+            }
+        })
+        ReactDOM.render(<App abc="快速入门案例" />,document.getElementById("app"))
+    </script>
+</body>
+</html>

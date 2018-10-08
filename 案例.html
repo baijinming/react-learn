@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/react.js"></script>
+    <script src="./js/react-dom.js"></script>
+    <script src="./js/browser-5.8.38.min.js"></script>
+    <link rel="stylesheet" href="./comment.css">
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        let App=React.createClass({
+            getInitialState(){
+                return{
+                    comments:[
+                        {username:"wangcai",content:"sdfsfsdfsdfsdddddddddddddd",time:1155555599955},
+                        {username:"xiaoqiang",content:"sdfsfsdfsdfsdddddddddddddd",time:1155555588855},
+                        {username:"lisi",content:"sdfsfsdfsdfsdddddddddddddd",time:155599995551}
+                    ]
+                }
+            },
+            addComment(comment){
+                this.state.comments.unshift(comment);
+                this.setState({
+                    comments: this.state.comments
+                })
+            },
+            removeComment(comment){
+                let index=this.state.comments.findIndex(item=>item==comment)
+                this.state.comments.splice(index,1);
+                this.setState({
+                    comments: this.state.comments
+                })
+            },
+            render(){
+                return(
+                    <div className="wrapper">
+                        <FormBox addComment={this.addComment} />
+                        <CommentList comments={this.state.comments} removeComment={this.removeComment} />
+                    </div>
+                )
+            }
+        });
+        let FormBox=React.createClass({
+            add(){
+                let username=this.refs.username.value.trim();
+                let content=this.refs.content.value.trim();
+                let comment={
+                    username,
+                    content,
+                    time:+new Date()
+                };
+                if(username && content){
+                    this.props.addComment(comment);
+                    this.refs.username.value = "";
+                    this.refs.content.value = ""
+                }else{
+                    alert("用户名和内容不能为空")
+                }
+            },
+            render(){
+                return(
+                    <div className="comment-input">
+                        <div className="comment-field">
+                            <span className="comment-field-name">用户名：</span>
+                            <div className="comment-field-input"><input type="text" ref="username" /></div>
+                        </div>
+                        <div className="comment-field">
+                            <span className="comment-field-name">评论内容：</span>
+                            <div className="comment-field-input"><textarea ref="content"></textarea></div>
+                        </div>
+                        <div className="comment-field-button">
+                            <button onClick={this.add}>发布</button>
+                        </div>
+                    </div>
+                )
+            }
+        });
+        let CommentList=React.createClass({
+            render(){
+                return(
+                    <div className="comment-list">
+                        {this.props.comments.map((comment,index)=>
+                            <CommentItem comment={comment} key={index} removeComment={this.props.removeComment} />
+                        )}
+                    </div>
+                )
+            }
+        });
+        let CommentItem=React.createClass({
+            getInitialState(){
+                return{
+                    elapsed:""
+                }
+            },
+            update(){
+                let t1=+new Date();
+                let t2=this.props.comment.time;
+                let t=Math.ceil((t1-t2)/1000);
+                let res=t<60 ? `${t}秒` : `${Math.floor(t/60)}分钟`;
+                this.setState({
+                    elapsed: res
+                })
+            },
+            componentWillMount(){
+                this.update();
+                this.timer=setInterval(()=>{
+                    this.update()
+                },1000)
+            },
+            componentWillUnmount(){
+                clearInterval(this.timer)
+            },
+            remove(){
+                this.props.removeComment(this.props.comment)
+            },
+            render(){
+                return(
+                    <div className="comment">
+                        <div className="comment-box">
+                            <div className="comment-user">
+                                <span>{this.props.comment.username}</span>
+                            </div>
+                            <p>{this.props.comment.content}</p>
+                        </div>
+                        <div className="btn">
+                            <span>{this.state.elapsed}之前</span>
+                            <a href="javascript:;" onClick={this.remove}>删除</a>
+                        </div>
+                    </div>
+                )
+            }
+        })
+
+        ReactDOM.render(<App/>,document.getElementById("app"))
+    </script>
+</body>
+
+</html>

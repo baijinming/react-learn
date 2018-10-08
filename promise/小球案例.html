@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .ball{ width: 100px;height: 100px;background-color: red;border-radius: 50%;margin-top: 30px;}
+    </style>
+</head>
+<body>
+    <div class="ball" id="ball1"></div>
+    <div class="ball" id="ball2"></div>
+    <div class="ball" id="ball3"></div>
+    <script>
+        let ball1=document.getElementById("ball1");
+        let ball2=document.getElementById("ball2");
+        let ball3=document.getElementById("ball3");
+
+        // //callback方式
+        // function move(ball,long,callback){
+        //     let left=0;
+        //     let go=setInterval(()=>{
+        //         left+=5;
+        //         if(left>=long){
+        //             clearInterval(go);
+        //             callback()
+        //         }
+        //         ball.style.transform=`translateX(${left}px)`;
+        //     },10)
+            
+        // }
+        // move(ball1,400,function(){
+        //     move(ball2,800,function(){
+        //         move(ball3,1200,function(){
+        //             alert("结束")
+        //         })
+        //     })
+        // })
+
+        // //promise方式
+        // let move=(ball,long)=>{
+        //     return new Promise(function(resolve,reject){
+        //         let left=0;
+        //         let go=setInterval(()=>{
+        //             left+=5;
+        //             if(left>=long){
+        //                 clearInterval(go);
+        //                 resolve()
+        //             }
+        //             ball.style.transform=`translateX(${left}px)`;
+        //         },10)
+        //     })
+        // }
+        // move(ball1,1200).then(data=>move(ball2,800)).then(data=>move(ball3,400)).catch(err=>console.log(err))
+
+        // //generator迭代器+co方式
+        // let move=(ball,long)=>{
+        //     return new Promise(function(resolve,reject){
+        //         let left=0;
+        //         let go=setInterval(()=>{
+        //             left+=5;
+        //             if(left>=long){
+        //                 clearInterval(go);
+        //                 resolve()
+        //             }
+        //             ball.style.transform=`translateX(${left}px)`;
+        //         },10)
+        //     })
+        // }
+        // function *m(){
+        //     yield move(ball1,400);
+        //     yield move(ball2,800);
+        //     yield move(ball3,1200);
+        // }
+        // //自定义co方法
+        // function co(it){
+        //     return new Promise((resolve,reject)=>{
+        //         function next(data){
+        //             let {value,done}=it.next(data);
+        //             if(done){
+        //                 return resolve(value);
+        //             }
+        //             value.then(data=>{
+        //                 next(data)
+        //             },reject)
+        //         }
+        //         next();
+        //     })
+        // }
+        // co(m()).then(data=>alert("结束"))
+
+
+        //async+await方式
+        let move=(ball,long)=>{
+            return new Promise(function(resolve,reject){
+                let left=0;
+                let go=setInterval(()=>{
+                    left+=5;
+                    if(left>=long){
+                        clearInterval(go);
+                        resolve()
+                    }
+                    ball.style.transform=`translateX(${left}px)`;
+                },10)
+            })
+        }
+        async function m(){
+            await move(ball1,500)
+            await move(ball2,500)
+            await move(ball3,500)
+        }
+        m().then(data=>alert("结束"))
+
+    </script>
+</body>
+</html>
