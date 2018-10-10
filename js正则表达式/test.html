@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //手机号码验证
+    // let p = /^1[3-8]\d{9}$/;
+    // let str = '13982843209';
+
+    //身份证号码验证
+    // let p = /^\d{6}[1-2]\d{3}[0-1]\d[0-3]\d{4}[\d|X]$/;
+    // let str = '513030199707037539';
+
+    //电子邮箱验证
+    // let p = /\w+@\w{2,}.[a-zA-Z]{2,}$/;
+    // let str = 'ad555@qq.com';
+
+    //十六进制颜色
+    let p = /^#[[0-9a-fA-F]{3}|[0-9a-fA-F]{6}]$/;
+    let str = '#f1f1f3';
+    let res = p.test(str);
+    console.log(res)
+</script>
+</html>

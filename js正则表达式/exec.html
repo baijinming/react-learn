@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+
+    //分组引用
+    // let p = /(?:\d{4})-([0-1]\d)-([0-3]\d)/g;
+    // let str = '我的生日是2018-07-09，她的生日是2018-12-06';
+
+    //向后引用
+    // let p = /(\d)(\d)\d\2\1/g;
+    // let str = '12321 56665 99888';
+
+
+    var tes;
+    while (tes = p.exec(str)) {
+        console.log(tes)
+    }
+</script>
+</html>
